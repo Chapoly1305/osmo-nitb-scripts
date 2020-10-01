@@ -20,31 +20,11 @@
 All software was tested on [LimeSDR-Mini + Orange Pi Zero](https://codeby.net/threads/miniatjurnaja-sotovaja-stancija-na-baze-limesdr-mini-i-orange-pi-zero.66747/) with Armbian Bionic. Also with Debian 10
 
 ### Installation
-Installing LimeSuite
-```
-apt install git g++ cmake libsqlite3-dev libi2c-dev libusb-1.0-0-dev
-git clone https://github.com/myriadrf/LimeSuite.git
-cd LimeSuite
-mkdir builddir && cd builddir
-cmake ../
-make -j4
-sudo make install
-sudo ldconfig
-cd ../udev-rules/
-sudo sh LimeSuite/udev-rules/install.sh
-cd ~/
-```
-Adding the Osmocom repository
-```
-sudo su
-wget http://download.opensuse.org/repositories/network:/osmocom:/latest/Debian_10//Release.key
-apt-key add Release.key
-rm Release.key
-echo "deb  http://download.opensuse.org/repositories/network:/osmocom:/latest/Debian_10/ ./" > /etc/apt/sources.list.d/osmocom-latest.list
-apt update
-exit
-```
-Installing
+Install the Prerequisites by reference to this tutorial. 
+https://github.com/Ghost-Assassin/sdr/wiki/Running-osmo-nitb-on-LimeSDR-USB-with-Ubuntu-18.04
+
+
+Then Install
 ```
 sudo apt install osmocom-nitb osmo-trx-lms osmo-bts-trx osmo-ggsn osmo-sgsn osmo-pcu osmo-sip-connector libsofia-sip-ua-glib-dev asterisk sqlite3 libsmpp1 telnet python3-pip
 sudo pip3 install smpplib
