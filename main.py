@@ -6,6 +6,7 @@ import datetime
 import signal
 from scripts import HLR, user_interact, monitor
 import argparse
+from pathlib import Path
 
 def signal_handler(sig, frame):
     print('\x1bc')
@@ -53,6 +54,7 @@ def configure(gprs, sip, interface, config_path="/etc/osmocom"):
     if gprs:
         subprocess.call("cp -f {0} {1}".format(app_dir+"/configs/openbsc_egprs.cfg", config_path+"/osmo-nitb.cfg"), shell=True)
         subprocess.call("su -c \"echo \'1\' > /proc/sys/net/ipv4/ip_forward\"", shell=True)
+        subprocess.call("iptables -t nat -F".format(interface), shell=True)
         subprocess.call("iptables -A POSTROUTING -s 176.16.1.1/24 -t nat -o {} -j MASQUERADE".format(interface), shell=True)
     else:
         subprocess.call("cp -f {0} {1}".format(app_dir+"/configs/openbsc.cfg", config_path+"/osmo-nitb.cfg"), shell=True)
@@ -167,7 +169,7 @@ if __name__ == "__main__" and check_root():
                         help="Enable sip (Asterisk) support. (Default=False)")
 
     args = parser.parse_args()
-
+    Path("/var/lib/osmocom/").mkdir(parents=True, exist_ok=True)
     hlr_path = "/var/lib/osmocom/hlr.sqlite3"
     user_interaction = args.user_interaction
     config = args.config
