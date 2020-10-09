@@ -23,6 +23,11 @@ All software was tested on [LimeSDR-Mini + Orange Pi Zero](https://codeby.net/th
 Install the Prerequisites by reference to this tutorial. 
 https://github.com/Ghost-Assassin/sdr/wiki/Running-osmo-nitb-on-LimeSDR-USB-with-Ubuntu-18.04
 
+```
+Cloning
+```
+git clone https://github.com/DrLafa/osmo-nitb-scripts
+```
 
 Then Install
 ```
@@ -45,11 +50,9 @@ systemctl stop osmo-sgsn
 systemctl stop osmo-pcu
 systemctl stop osmo-sip-connector
 systemctl stop asterisk
-exit
 ```
 Disabling service autostart
 ```
-sudo su
 systemctl disable osmocom-nitb
 systemctl disable osmo-nitb
 systemctl disable osmo-trx-lms
@@ -59,11 +62,7 @@ systemctl disable osmo-sgsn
 systemctl disable osmo-pcu
 systemctl disable osmo-sip-connector
 systemctl disable asterisk
-```
-Cloning
-```
-git clone https://github.com/DrLafa/osmo-nitb-scripts
-```
+exit
 
 ### Configure
 All osmocom config files stored in `config/` folder and updating everytime when you start `main.py`. You can change it by youself.
