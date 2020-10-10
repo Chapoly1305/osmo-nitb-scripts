@@ -1,6 +1,4 @@
 
-![](https://raw.githubusercontent.com/DrLafa/osmo-nitb-scripts/master/doc/img/help.png)
-
 ### RougeBTS
 
  This project is created for easy deployment of Osmocom GSM stack and convenient interaction with users
@@ -15,31 +13,35 @@
   - SMS-spam ;)
 
 
-![](https://raw.githubusercontent.com/DrLafa/osmo-nitb-scripts/master/doc/img/RougeBTS.png)
-
-All software was tested on [LimeSDR-Mini + Orange Pi Zero](https://codeby.net/threads/miniatjurnaja-sotovaja-stancija-na-baze-limesdr-mini-i-orange-pi-zero.66747/) with Armbian Bionic. Also with Debian 10
-
 ### Installation
 Install the Prerequisites by reference to this tutorial. 
 https://github.com/Ghost-Assassin/sdr/wiki/Running-osmo-nitb-on-LimeSDR-USB-with-Ubuntu-18.04
 
+
+Install
+
+```console
+sudo apt install osmocom-nitb osmo-trx-lms osmo-bts-trx osmo-ggsn osmo-sgsn osmo-pcu osmo-sip-connector libsofia-sip-ua-glib-dev asterisk sqlite3 libsmpp1 telnet python3-pip
+sudo pip3 install smpplib
+
 ```
-Cloning
-```
+
+
+Cloning Project
+
+```console
 git clone https://github.com/DrLafa/osmo-nitb-scripts
 ```
 
-Then Install
-```
-sudo apt install osmocom-nitb osmo-trx-lms osmo-bts-trx osmo-ggsn osmo-sgsn osmo-pcu osmo-sip-connector libsofia-sip-ua-glib-dev asterisk sqlite3 libsmpp1 telnet python3-pip
-sudo pip3 install smpplib
-```
+
 It is necessary to install Osmocom stack from apt, because it configure Systemd services. If you compile osmocom from sources, you need to install Systemd services by yourself with script `install_services.sh`
-```
+
+```console
 sudo ./install_services.sh
 ```
+
 Stopping launched services after installation
-```
+```console
 sudo su
 systemctl stop osmocom-nitb
 systemctl stop osmo-nitb
@@ -50,9 +52,12 @@ systemctl stop osmo-sgsn
 systemctl stop osmo-pcu
 systemctl stop osmo-sip-connector
 systemctl stop asterisk
+exit
 ```
+
 Disabling service autostart
-```
+```console
+sudo su
 systemctl disable osmocom-nitb
 systemctl disable osmo-nitb
 systemctl disable osmo-trx-lms
@@ -62,45 +67,8 @@ systemctl disable osmo-sgsn
 systemctl disable osmo-pcu
 systemctl disable osmo-sip-connector
 systemctl disable asterisk
-exit
+```
+
 
 ### Configure
 All osmocom config files stored in `config/` folder and updating everytime when you start `main.py`. You can change it by youself.
-
-### config.json
-For easy setup of user-interactivity you can use config.json
-- config.json example
-```
-{
-   "scripts":{
-      "sms":{
-         "enabled": false,
-         "sender_extension": "John Connor",
-         "message":[
-            "If you are reading this, then you are resistance"
-         ]
-      },
-      "ussd":{
-         "enabled": false,
-         "ussd_type": 1,
-         "message":[
-            "Welcome to our l33t hax0r network.",
-            "If you are reading this, then you are true L33T 1337 H4xXx0r"
-         ]
-      },
-      "call":{
-         "enabled": true,
-         "caller_extension": 666,
-         "voice-file": "tt-monkeys"
-      }
-   }
-}
-```
-#### sms
-Send sms to new users. When user connect to network, script choose 1 random message from ```message``` section and sending it from extension ```sender_extension```
-
-#### ussd
-Send ussd to new users. Script choose 1 random message from ```message``` section adn sending it to user
-
-#### call
-Make a call to new user. This function works only with Asterisk support. voice-file is 16-bit 8 kHz wav file. If ```caller_extension``` is ```false```, then the user sees that the phone is not defined.
